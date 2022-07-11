@@ -149,7 +149,8 @@ class ResultBackend:
             "actor_name": message.actor_name,
             "message_id": message.message_id,
         }
-        return hashlib.md5(message_key.encode("utf-8")).hexdigest()
+        hash = hashlib.md5(message_key.encode("utf-8")).hexdigest()
+        return "%(namespace)s:%(hash)s" % {"namespace": self.namespace, "hash": hash}
 
     def _get(self, message_key: str) -> MResult:  # pragma: no cover
         """Get a result from the backend.  Subclasses may implement
